@@ -38,12 +38,12 @@ export class MdcSelectHelperTextFoundation extends MDCComponent<MDCSelectHelperT
 
   /** Sets the persistency of the helper text. */
   setPersistent(isPersistent: boolean) {
-    this._foundation.setPersistent(isPersistent);
+    this._foundation.setValidationMsgPersistent(isPersistent);
   }
 
   /** True to make the helper text act as an error validation message. */
   setValidation(isValidation: boolean) {
-    this._foundation.setValidation(isValidation);
+    this._foundation.setValidationMsgPersistent(isValidation);
   }
 
   /** Sets the validity of the helper text based on inputIsValid. */

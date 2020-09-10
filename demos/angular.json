@@ -99,5 +99,8 @@
       }
     }
   },
-  "defaultProject": "angular-mdc-demos"
+  "defaultProject": "angular-mdc-demos",
+  "cli": {
+    "analytics": "a76dfdb4-849c-438c-8a2d-61593845a33d"
+  }
 }

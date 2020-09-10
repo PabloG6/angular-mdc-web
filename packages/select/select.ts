@@ -252,13 +252,15 @@ export class MdcSelect extends _MdcSelectMixinBase implements AfterViewInit, DoC
       ...this._getSelectAdapterMethods(),
       ...this._getCommonAdapterMethods(),
       ...this._getOutlineAdapterMethods(),
-      ...this._getLabelAdapterMethods()
+      ...this._getLabelAdapterMethods(),
+    
     };
     return new MDCSelectFoundation(adapter, this._getFoundationMap());
   }
 
   private _getSelectAdapterMethods() {
     return {
+      removeSelectAnchorAttr: (attr: string) => this._selectAnchor.nativeElement.removeAttribute(attr),
       getSelectedMenuItem: () =>
         this._menu!.elementRef.nativeElement.querySelector(strings.SELECTED_ITEM_SELECTOR),
       getMenuItemAttr: (menuItem: Element, attr: string) => menuItem.getAttribute(attr),
@@ -292,6 +294,10 @@ export class MdcSelect extends _MdcSelectMixinBase implements AfterViewInit, DoC
 
   private _getCommonAdapterMethods() {
     return {
+      isTypeaheadInProgress: () => false,
+      typeaheadMatchItem: () => -1,
+      addMenuClass: (className: string) => this._menu.elementRef.nativeElement.classList.add(className),
+      removeMenuClass: (className: string) => this._menu.elementRef.nativeElement.classList.remove(className),
       addClass: (className: string) => this._root.classList.add(className),
       removeClass: (className: string) => this._root.classList.remove(className),
       hasClass: (className: string) => this._root.classList.contains(className),
@@ -312,6 +318,7 @@ export class MdcSelect extends _MdcSelectMixinBase implements AfterViewInit, DoC
 
   private _getLabelAdapterMethods() {
     return {
+      setLabelRequired: (isRequired: boolean) => this._foundation.setRequired(isRequired),
       hasLabel: () => this._hasPlaceholder,
       floatLabel: (shouldFloat: boolean) => this._getFloatingLabel()?.float(shouldFloat),
       getLabelWidth: () => this._getFloatingLabel()?.getWidth() ?? 0

@@ -222,6 +222,11 @@ export class MdcChip extends MDCComponent<MDCChipFoundation> implements AfterVie
       addClass: (className: string) => this._root.classList.add(className),
       removeClass: (className: string) => this._root.classList.remove(className),
       hasClass: (className: string) => this._root.classList.contains(className),
+      /**fix these properties to reflect whatever the fuck this thing is asking for */
+      isTrailingActionNavigable: () => false,
+      notifyEditStart: () => null,
+      notifyEditFinish: () => null,
+      removeTrailingActionFocus: () => false,
       addClassToLeadingIcon: (className: string) =>
         this.leadingIcon?.elementRef?.nativeElement?.classList?.add(className),
       removeClassFromLeadingIcon: (className: string) =>
@@ -261,10 +266,7 @@ export class MdcChip extends MDCComponent<MDCChipFoundation> implements AfterVie
         this._platform.isBrowser ? window.getComputedStyle(this._root).getPropertyValue(propertyName) : '',
       setStyleProperty: (propertyName: string, value: string) =>
         (<HTMLElement>this._root).style.setProperty(propertyName, value),
-      setTrailingActionAttr: (attr: string, value: string) =>
-        this.trailingIcon?.elementRef?.nativeElement?.setAttribute(attr, value),
       hasLeadingIcon: () => !!this.leadingIcon,
-      hasTrailingAction: () => !!this.trailingIcon,
       setPrimaryActionAttr: (attr: string, value: string) => this._primaryAction._root.setAttribute(attr, value),
       getRootBoundingClientRect: () => this._root.getBoundingClientRect(),
       getCheckmarkBoundingClientRect: () =>
@@ -336,11 +338,11 @@ export class MdcChip extends MDCComponent<MDCChipFoundation> implements AfterVie
   }
 
   _handleInteraction(evt: KeyboardEvent | MouseEvent): void {
-    this._foundation.handleInteraction(evt);
+    this._foundation.handleTrailingActionInteraction();
   }
 
   _onKeydown(evt: KeyboardEvent): void {
-    this._foundation.handleInteraction(evt);
+    this._foundation.handleTrailingActionInteraction();
     this._foundation.handleKeydown(evt);
   }
 
@@ -353,7 +355,7 @@ export class MdcChip extends MDCComponent<MDCChipFoundation> implements AfterVie
   }
 
   _handleTrailingIconInteraction(evt: KeyboardEvent | MouseEvent): void {
-    this._foundation.handleTrailingIconInteraction(evt);
+    this._foundation.handleTrailingActionInteraction();
   }
 
   private _createRipple(): MdcRipple {

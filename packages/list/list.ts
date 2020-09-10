@@ -231,6 +231,8 @@ export class MdcList extends MDCComponent<any> implements AfterViewInit, OnDestr
   getDefaultFoundation() {
     const adapter: MDCListAdapter = {
       getListItemCount: () => this.items.length,
+      getPrimaryTextAtIndex: (index: number) => this.items.toArray()[index].value,
+
       getFocusedElementIndex: () => {
         if (!this._platform.isBrowser && document.activeElement!) {
           return -1;

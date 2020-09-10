@@ -20,6 +20,7 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
+import {MDCTextFieldNativeInputElement} from '@material/textfield/types'
 import {DOCUMENT} from '@angular/common';
 import {ControlValueAccessor, FormGroupDirective, NgControl, NgForm} from '@angular/forms';
 import {coerceBooleanProperty, coerceNumberProperty} from '@angular/cdk/coercion';
@@ -381,17 +382,18 @@ export class MdcTextField extends _MdcTextFieldMixinBase implements AfterViewIni
 
   private _getInputAdapterMethods(): MDCTextFieldInputAdapter {
     return {
-      getNativeInput: () => {
+      getNativeInput: (): MDCTextFieldNativeInputElement => {
         return {
+          required: this.required,
           maxLength: this.maxlength ?? 0,
-          type: this.type,
-          value: this._platform.isBrowser ? this._input.nativeElement.value : this._value,
-          disabled: this._disabled,
-          validity: {
-            valid: this._isValid(),
-            badInput: this._platform.isBrowser ? this._input.nativeElement.validity.badInput : false
-          }
-        };
+        type: this.type,
+        value: this._platform.isBrowser ? this._input.nativeElement.value : this._value,
+        disabled: this._disabled,
+        validity: {
+          valid: this._isValid(),
+          badInput: this._platform.isBrowser ? this._input.nativeElement.validity.badInput : false
+        }
+        }
       },
       isFocused: () => this._platform.isBrowser ? document.activeElement === this._getInputElement() : false,
       registerInputInteractionHandler: () => {},
@@ -404,6 +406,7 @@ export class MdcTextField extends _MdcTextFieldMixinBase implements AfterViewIni
       shakeLabel: (shouldShake: boolean) => this._getFloatingLabel()?.shake(shouldShake),
       floatLabel: (shouldFloat: boolean) => this._getFloatingLabel()?.float(shouldFloat),
       hasLabel: () => this._hasFloatingLabel(),
+      setLabelRequired: (isRequired: boolean) => this._getFloatingLabel()?.setRequired(isRequired),
       getLabelWidth: () => this._getFloatingLabel()?.getWidth() ?? 0
     };
   }
@@ -692,6 +695,7 @@ export class MdcTextField extends _MdcTextFieldMixinBase implements AfterViewIni
   private _getFloatingLabel(): MdcFloatingLabel | undefined {
     return this._floatingLabel || this._notchedOutline?.floatingLabel;
   }
+
 
   private _syncCharacterCounter(): void {
     if (!this.charCounter) {

@@ -67,8 +67,13 @@ export class MdcFloatingLabel extends MDCComponent<MDCFloatingLabelFoundation>
   /** Styles the label to float or dock. */
   float(shouldFloat: boolean): void {
     this._foundation.float(shouldFloat);
+    
   }
 
+
+  setRequired(isRequired: boolean): void {
+    this._foundation.setRequired(isRequired);
+  }
   private _loadListeners(): void {
     this._ngZone.runOutsideAngular(() =>
       fromEvent<AnimationEvent>(this._getHostElement(), 'animationend')
